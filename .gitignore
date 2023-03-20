@@ -2,3 +2,4 @@
 /configuration
 /data
 /wandb
+.idea*
