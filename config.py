@@ -21,7 +21,7 @@ class Config(DataClassJsonMixin, metaclass=ABCMeta):
 
     def __init__(self):
         super(DataClassJsonMixin, self).__init__()
-        self.base = 'met'
+        self.base = 'workspace'
         self.name = 'main'
         self.load_yaml(self.name)
 
