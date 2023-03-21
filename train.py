@@ -319,6 +319,9 @@ def main(argv: Sequence[str]) -> None:
 if __name__ == '__main__':
     # remove checkpoint files
     path_to_checkpoints = './saved_models/'
-    os.remove(path_to_checkpoints + 'checkpoint')
+    try:
+        os.remove(path_to_checkpoints + 'checkpoint')
+    except:
+        pass
 
     app.run(main)
