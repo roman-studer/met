@@ -5,9 +5,9 @@ import wandb
 
 
 class WandBLogger:
-    def __init__(self):
+    def __init__(self, run_name=str(uuid.uuid4())):
         c = config.WandBConfig()
-        c.run_name = str(uuid.uuid4())
+        c.run_name = run_name
         self.wandb = wandb
         self.wandb.init(project=c.project_name, entity=c.entity, name=c.run_name, sync_tensorboard=c.sync_tensorboard)
         self.run_name = self.wandb.run.name

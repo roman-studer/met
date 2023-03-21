@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import contextlib
+import os
 from typing import Sequence, Any, ContextManager
 
 from absl import app
@@ -296,8 +297,7 @@ def train_METModel(
 
 
 def main(argv: Sequence[str]) -> None:
-    logger = WandBLogger()
-    logger.wandb.run.name = FLAGS.model_kw
+    logger = WandBLogger(FLAGS.model_kw)
 
     scope = _get_distribution_strategy_scope(FLAGS.platform, FLAGS.master)
     logging.info(
@@ -317,4 +317,8 @@ def main(argv: Sequence[str]) -> None:
 
 
 if __name__ == '__main__':
+    # remove checkpoint files
+    path_to_checkpoints = './saved_models/'
+    os.remove(path_to_checkpoints + 'checkpoint')
+
     app.run(main)
