@@ -28,6 +28,8 @@ from wandb_logging import WandBLogger
 
 FLAGS = flags.FLAGS
 
+run_name = uuid.uuid4().hex[:6]
+
 flags.DEFINE_enum(
     'platform',
     'gpu',
@@ -46,7 +48,7 @@ flags.DEFINE_float('lr', 1e-5, 'Learning rate')
 flags.DEFINE_float('lr_adv', 1e-2, 'Adv Learning rate')
 flags.DEFINE_integer('num_classes', 263, 'Number of Classes')
 flags.DEFINE_string('model_path', '', 'Path for saved model')
-flags.DEFINE_string('model_kw', uuid.uuid4().hex, 'Keyword for dataset')
+flags.DEFINE_string('model_kw', run_name, 'Keyword for dataset')
 flags.DEFINE_integer('train_len', 1919, 'Length of train set')
 flags.DEFINE_string('train_data_path', './data/species_data_clean_train.csv', 'Path for saved linear model')
 flags.DEFINE_integer('test_len', 480, 'Length of test set')
@@ -249,11 +251,11 @@ def train_METModel(
     optimizer = tf.keras.optimizers.Adam(learning_rate=FLAGS.lr)
     model.compile(optimizer, 'mse', metrics=['accuracy'])
     if FLAGS.model_path == '':
-        checkpoint_filepath = save_path + 'fmnist_adv_' + str(
+        checkpoint_filepath = save_path + run_name + '_adv_' + str(
             embed_dim) + '_' + str(num_heads) + '_' + str(ff_dim) + '_' + str(
             model_depth_enc) + '_' + str(model_depth_dec) + '_' + str(mask_pct) + '_' + str(FLAGS.lr)
     else:
-        checkpoint_filepath = FLAGS.model_path
+        checkpoint_filepath = FLAGS.model_path + run_name + '_adv'
     model.summary()
     radius = FLAGS.radius
     mu, sigma = 0, 1  # mean and standard deviation
@@ -369,6 +371,8 @@ def train_METModel(
 
 def main(argv: Sequence[str]) -> None:
     logger = WandBLogger()
+    logger.wandb.run_name = FLAGS.model_kw
+
 
     logging.info(
         'Train-Parms :- embed_dim %d, num_heads %d, ff_dim %d, model_depth_enc %d, model_depth_dec %d, mask_pct %d',

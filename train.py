@@ -29,6 +29,8 @@ from wandb.keras import WandbMetricsLogger
 
 FLAGS = flags.FLAGS
 
+run_name = uuid.uuid4().hex[:6]
+
 flags.DEFINE_enum(
     'platform',
     'gpu',
@@ -43,7 +45,7 @@ flags.DEFINE_integer('mask_pct', 70, 'Mask Pct')
 flags.DEFINE_float('lr', 1e-5, 'Learning rate')
 flags.DEFINE_integer('num_classes', 263, 'Number of Classes')
 flags.DEFINE_string('model_path', '', 'Path for saved model')
-flags.DEFINE_string('model_kw', uuid.uuid4().hex, 'Keyword for dataset')
+flags.DEFINE_string('model_kw', run_name, 'Keyword for dataset')
 flags.DEFINE_integer('train_len', 1919, 'Length of train set')
 flags.DEFINE_string('train_data_path', './data/species_data_clean_train.csv', 'Path for saved linear model')
 flags.DEFINE_integer('test_len', 480, 'Length of test set')
@@ -270,7 +272,7 @@ def train_METModel(
             embed_dim) + '_' + str(num_heads) + '_' + str(ff_dim) + '_' + str(
             model_depth_enc) + '_' + str(model_depth_dec) + '_' + str(mask_pct) + '_' + str(FLAGS.lr)
     else:
-        checkpoint_filepath = FLAGS.model_path
+        checkpoint_filepath = FLAGS.model_path + FLAGS.model_kw
     model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_filepath,
         save_weights_only=True,
@@ -295,6 +297,7 @@ def train_METModel(
 
 def main(argv: Sequence[str]) -> None:
     logger = WandBLogger()
+    logger.wandb.run_name = FLAGS.model_kw
 
     scope = _get_distribution_strategy_scope(FLAGS.platform, FLAGS.master)
     logging.info(
