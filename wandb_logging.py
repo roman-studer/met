@@ -1,7 +1,7 @@
 from sklearn.metrics import confusion_matrix
-import wandb
 import config
 import uuid
+import wandb
 
 
 class WandBLogger:

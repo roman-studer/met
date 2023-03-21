@@ -24,7 +24,6 @@ import pandas as pd
 import tensorflow as tf
 
 from wandb_logging import WandBLogger
-from wandb.keras import WandbMetricsLogger
 
 FLAGS = flags.FLAGS
 
