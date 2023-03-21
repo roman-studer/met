@@ -297,7 +297,7 @@ def train_METModel(
 
 def main(argv: Sequence[str]) -> None:
     logger = WandBLogger()
-    logger.wandb.run_name = FLAGS.model_kw
+    logger.wandb.run.name = FLAGS.model_kw
 
     scope = _get_distribution_strategy_scope(FLAGS.platform, FLAGS.master)
     logging.info(
