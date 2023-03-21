@@ -18,6 +18,7 @@ from typing import Sequence, Any, ContextManager
 from absl import app
 from absl import flags
 from absl import logging
+import uuid
 
 import numpy as np
 import pandas as pd
@@ -40,15 +41,15 @@ flags.DEFINE_integer('model_depth_enc', 6, 'Num Encoder Layers')
 flags.DEFINE_integer('model_depth_dec', 1, 'Num Decoder Layers')
 flags.DEFINE_integer('mask_pct', 70, 'Mask Pct')
 flags.DEFINE_float('lr', 1e-5, 'Learning rate')
-flags.DEFINE_integer('num_classes', 10, 'Number of Classes')
+flags.DEFINE_integer('num_classes', 263, 'Number of Classes')
 flags.DEFINE_string('model_path', '', 'Path for saved model')
-flags.DEFINE_string('model_kw', 'fmnist', 'Keyword for dataset')
-flags.DEFINE_integer('train_len', 60000, 'Length of train set')
+flags.DEFINE_string('model_kw', uuid.uuid4().hex, 'Keyword for dataset')
+flags.DEFINE_integer('train_len', 1919, 'Length of train set')
 flags.DEFINE_string('train_data_path', './data/fashion-mnist_train_n_s.csv', 'Path for saved linear model')
-flags.DEFINE_integer('test_len', 10000, 'Length of test set')
+flags.DEFINE_integer('test_len', 480, 'Length of test set')
 flags.DEFINE_string('test_data_path', './data/fashion-mnist_test_n_s.csv', 'Path for saved linear model')
 flags.DEFINE_integer('batch_size', 128, 'Batch size')
-flags.DEFINE_integer('num_epochs', 100, 'Number of epochs')
+flags.DEFINE_integer('num_epochs', 300, 'Number of epochs')
 flags.DEFINE_string(
     'master',
     'local',

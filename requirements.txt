@@ -4,6 +4,6 @@ numpy==1.22.0
 scikit-learn~=1.2.0
 matplotlib~=3.6.2
 pyyaml~=6.0
+wandb
 dataclasses>=0.6
 dataclasses_json
-wandb~=0.13.7
